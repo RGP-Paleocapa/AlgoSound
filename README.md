@@ -1,3 +1,3 @@
-# AlgoSim
+# AlgoSound
 #
 # JavaFX + Maven
