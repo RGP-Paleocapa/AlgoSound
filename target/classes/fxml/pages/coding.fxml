@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.embed.swing.SwingNode?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+
+<VBox xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+    fx:controller="it.example.controller.pages.CodingController"
+    stylesheets="css/pages.css"
+    styleClass="vbox-container"
+    spacing="10"
+    alignment="CENTER"
+>
+
+    <!-- Chart gen section -->
+    <VBox fx:id="graficiSection" spacing="10.0">
+        <Label text="Title" />
+        <ChoiceBox fx:id="choiceBox" value="Formula">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="Formula" />
+                    <String fx:value="Codice java" />
+                </FXCollections>
+            </items>
+        </ChoiceBox>
+        <TextField fx:id="formulaTextField" styleClass="textfield" />
+        <TextArea fx:id="formulaTextArea" styleClass="textArea" managed="false" visible="false" />
+        <Button fx:id="generateButton" onAction="#generateChartButton" text="Generate" />
+    </VBox>
+
+    <!-- Swing Chart Section -->
+    <SwingNode fx:id="swingChartsSection" />
+
+    <!-- Sound Section -->
+    <HBox fx:id="soundSection" spacing="10.0">
+        <Label text="Sound" />
+        <Button fx:id="playButton" onAction="#playSound" text="Play"/>
+        <Button fx:id="stopButton" onAction="#stopSound" text="Stop"/>
+        <Button fx:id="resetButton" onAction="#resetButton" text="Reset"/>
+    </HBox>
+</VBox>
