@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+
+<VBox xmlns="http://javafx.com/javafx/16"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="it.example.controller.pages.components.ItemController"
+      spacing="10"
+      alignment="CENTER"
+      stylesheets="css/main.css">
+    <Label fx:id="titleLabel" styleClass="item-title" />
+    <Label fx:id="textLabel" styleClass="item-text" wrapText="true" />
+    <!-- <Label fx:id="textLabel" styleClass="item-text" wrapText="true" /> -->
+</VBox>

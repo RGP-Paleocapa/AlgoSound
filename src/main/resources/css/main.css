@@ -1,0 +1,88 @@
+/* Imposta lo sfondo della finestra principale */
+#main {
+    /* -fx-background-image: url("../images/water-1867636.jpg");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover; */
+}
+
+/* Navbar */
+#navbar {
+    -fx-background-color: #f00;
+    /* -fx-padding: 10px; */
+}
+
+.navbar Button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #000;
+    -fx-font-family: Verdana;
+    -fx-font-weight: bolder;
+    -fx-font-size: 1.3em;
+    -fx-padding: 15px;
+}
+
+.navbar .active {
+    /* -fx-background-color: #00f; */
+    -fx-text-fill: #fff;
+    /* Border */
+    -fx-border-style: solid;
+    -fx-border-color: #fff;
+    -fx-border-width: 0 0 3 0; /* 2 pixel di spessore per il bordo inferiore */
+
+}
+
+.navbar Button:hover {
+    /* -fx-background-color: #fff; */
+    -fx-text-fill: #fff;
+}
+
+/* *** */
+.contentPane {
+    -fx-background-color: orange;
+}
+
+
+/* *** */
+Button {
+
+}
+
+/* ********************************************* */
+
+.item-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3498db; /* Blue text color */
+    -fx-padding: 5px; /* Add padding around the title */
+    -fx-background-color: #f0f0f0; /* Background color for the title */
+    -fx-border-radius: 5px; /* Rounded corners */
+    -fx-border-color: #ccc; /* Border color */
+    -fx-border-width: 1px; /* Border width */
+}
+
+.item-text {
+    -fx-font-size: 14px;
+    -fx-text-fill: #555; /* Dark gray text color */
+    -fx-padding: 10px 5px; /* Add vertical padding to the text */
+    -fx-background-color: #fff; /* Background color for the text */
+    -fx-border-radius: 5px; /* Rounded corners */
+    -fx-border-color: #ccc; /* Border color */
+    -fx-border-width: 1px; /* Border width */
+}
+
+/* ************************************** */
+
+.list-view {
+    -fx-background-color: #f0f0f0;
+}
+
+.list-cell {
+    -fx-font-size: 16px; 
+    -fx-padding: 5px; 
+    -fx-border-color: #ddd;
+    -fx-border-width: 0 0 1px 0; 
+}
+
+.list-cell:selected {
+    -fx-background-color: #3498db; 
+    -fx-text-fill: white; 
+}

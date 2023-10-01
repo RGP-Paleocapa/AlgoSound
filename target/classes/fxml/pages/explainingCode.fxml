@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.text.*?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+
+
+<VBox xmlns="http://javafx.com/javafx/16"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="it.example.controller.pages.ExplainingCodeController"
+      stylesheets="css/main.css"
+      alignment="CENTER"
+      spacing="50"
+      styleClass="page2">
+
+    <ListView id="listView" fx:id="listView" prefHeight="200" prefWidth="200" styleClass="list-view">
+        <items>
+            <FXCollections fx:factory="observableArrayList" />
+        </items>
+    </ListView>
+
+    <Text fx:id="text" text="Click an item in the ListView to change this text.">
+        <font>
+            <Font size="25.0"/>
+        </font>
+    </Text>
+</VBox>
+

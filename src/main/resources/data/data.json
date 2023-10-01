@@ -1,0 +1,37 @@
+[
+    {
+        "name": "Basics",
+        "title": "Basic elements",
+        "text": "- 44100.0 is the sample rate of the audio. Therefore, it must not be changed;\n- \"i\" or \"x\" is the value of the for/variable;\n"
+    },
+    {
+        "name": "ChoiceBox",
+        "title": "ChoiceBox",
+        "text": "Select the type Formula or Java Code from the ChoiceBox:\n- \"Formula\": to insert the (Java) formula.\n- \"Java Code\": to insert an if-then-else Java code."
+    },
+    {
+        "name": "Formula",
+        "title": "TextField formula",
+        "text": "The formula may look like\n- \"y = Math.sin(440 * a);\"\nor just\n- \"Math.sin(440 * a);\"."
+    },
+    {
+        "name": "Java Code",
+        "title": "TextArea formula",
+        "text": "You can use only an if-then-else type.\nExamples:\n\nsineValue = Math.sin(2 * Math.PI * i * 440 / 44100.0);\nif (sineValue >= 0) {\n    y = 1;\n} else {\n    y = -1;\n}\n\nWhich converts a sinusoidal wave into a quadratic wave."
+    },
+    {
+        "name": "Condition angle",
+        "title": "Condition angle",
+        "text": "A formula for the sinusoidal waveform for 440Hz is\n\n\"y = Math.sin(2.0 * Math.PI * x * (440 / 44100.0))\"\n\nwhere 2 * PI * x is the sinusoidal code, and the text within the parentheses determines the frequency of a 44100Hz audio sample (you cannot change it, so don't do it).\n\nThe content inside the parentheses can also be written as \"Math.sin(440 * a)\"."
+    },
+    {
+        "name": "Another Java Code",
+        "title": "TextArea uncommon formula",
+        "text": "You can use only an if-then-else type.\nExamples:\n\nif (x % 100 < 50) {\n    y = 1;\n} else {\n    y = -1;\n}\nNote: this code gives the same result for a quadratic wave of 440Hz."
+    },
+    {
+        "name": "Another Formula",
+        "title": "Another formula",
+        "text": "The mathematical formula of a quadratic wave is\n\"y = Math.signum(Math.sin(440 * a));\"."
+    }
+]
