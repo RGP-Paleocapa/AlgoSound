@@ -1,0 +1,3 @@
+# AlgoSim
+#
+# JavaFX + Maven
