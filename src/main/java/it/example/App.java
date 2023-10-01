@@ -20,7 +20,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("Esempio JavaFX con FXML");
+        primaryStage.setTitle("Algosim");
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
         Parent root = loader.load();
