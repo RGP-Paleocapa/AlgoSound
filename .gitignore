@@ -1,0 +1,33 @@
+# JavaFX
+/out/
+
+# Compiled class files
+*.class
+
+# Log files
+*.log
+
+# Compiled files
+*.jar
+
+# IntelliJ IDEA files
+.idea/
+
+# Eclipse files
+.classpath
+.project
+.settings/
+
+# NetBeans files
+nbproject/
+build/
+
+# Gradle files
+.gradle/
+build/
+
+# Visual Studio Code files
+.vscode/
+
+# Maven target directory
+target/
