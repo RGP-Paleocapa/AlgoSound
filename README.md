@@ -12,7 +12,7 @@ Once you have the prerequisites installed, you can run AlgoSound using the follo
 1. Clone this repository to your local machine:
 
    ```shell
-   git clone https://github.com/yourusername/AlgoSound.git
+   git clone https://github.com/rgp-paleocapa/AlgoSound.git
    ```
 2. Navigate to the project directory:
     ```
@@ -22,9 +22,3 @@ Once you have the prerequisites installed, you can run AlgoSound using the follo
     ```
     mvn javafx:run
     ```
-
-### Development
-If you want to develop and modify the project, you can import it into your preferred Java IDE.
-
-
-You can copy and paste this corrected plain text into your README file. Make sure to replace `"https://github.com/yourusername/AlgoSound.git"` with the actual URL of your Git repository.
