@@ -33,131 +33,99 @@ public class ExplainingCodeController {
 
     private JSONArray items;
     private Map<String, Integer> itemNameToIndex = new HashMap<>();
-    private Stage itemStage; // Store a reference to the item window stage
-
-    private ObservableList<String> itemNames;
+    private Stage itemStage; // Reference to the item window stage
+    private ObservableList<String> itemNames = FXCollections.observableArrayList();
 
     /**
-     * Initializes the ExplainingCodeController.
-     * This method is automatically called when the FXML is loaded.
-     * It sets the initial position of the 'text' element on the scene,
-     * loads JSON data from a file, initializes data structures, and sets up event handling.
+     * Initializes the controller, called when the FXML is loaded.
      */
-    public void initialize() throws JSONException {
+    public void initialize() {
         text.setX(250);
         text.setY(250);
 
-        // Load JSON data from a file
-        loadItemsFromJSON();
-
-        // Create an ObservableList to hold the item names for the ListView
-        itemNames = FXCollections.observableArrayList();
-
-        // Populate the itemNames list and itemNameToIndex map
-        getItemNames();
-
-        listView.setItems(itemNames);
-
-        // Set up a click event handler for the ListView
-        listView.setOnMouseClicked(event -> {
-            try {
-                handleListViewClick(event);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        });
+        try {
+            loadItemsFromJSON();
+            populateItemNames();
+            listView.setItems(itemNames);
+            listView.setOnMouseClicked(this::handleListViewClick);
+        } catch (JSONException | IOException e) {
+            e.printStackTrace(); // In a real application, log this error or show to the user.
+        }
     }
 
     /**
-     * Populates the itemNames list and itemNameToIndex map from JSON data.
+     * Populates itemNames list and itemNameToIndex map from JSON data.
      */
-    private void getItemNames() {
-        try {
-            for (int i = 0; i < items.length(); i++) {
-                JSONObject item = items.getJSONObject(i);
-                String itemName = item.getString("name");
-                itemNames.add(itemName); // Add item name to the list
-                itemNameToIndex.put(itemName, i); // Map item name to its index
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
+    private void populateItemNames() throws JSONException {
+        for (int i = 0; i < items.length(); i++) {
+            JSONObject item = items.getJSONObject(i);
+            String itemName = item.getString("name");
+            itemNames.add(itemName);
+            itemNameToIndex.put(itemName, i);
         }
     }
 
     /**
      * Loads items from a JSON file into the 'items' JSONArray.
      */
-    private void loadItemsFromJSON() throws JSONException {
-        // Load JSON data from a file
-        InputStream inputStream = getClass().getResourceAsStream("/data/data.json");
-        JSONTokener tokener = new JSONTokener(new InputStreamReader(inputStream));
-        items = new JSONArray(tokener);
+    private void loadItemsFromJSON() throws JSONException, IOException {
+        try (InputStream inputStream = getClass().getResourceAsStream("/data/data.json");
+             InputStreamReader inputStreamReader = new InputStreamReader(inputStream)) {
+            JSONTokener tokener = new JSONTokener(inputStreamReader);
+            items = new JSONArray(tokener);
+        }
     }
 
     /**
-     * Handles the ListView item click event.
-     * It opens a new item window or updates an existing one based on the selected item.
+     * Handles ListView item click events, opening or updating an item window.
      */
-    private void handleListViewClick(MouseEvent event) throws JSONException {
+    private void handleListViewClick(MouseEvent event) {
         String selectedItem = listView.getSelectionModel().getSelectedItem();
         if (selectedItem != null) {
             Integer selectedIndex = itemNameToIndex.get(selectedItem);
             if (selectedIndex != null) {
-                JSONObject selectedItemObject = items.getJSONObject(selectedIndex);
-
-                String title = selectedItemObject.getString("title");
-                String itemText = selectedItemObject.getString("text");
-
-                if (itemStage == null) {
-                    // Create a new window to display item details if it doesn't exist
-                    createItemStage(title, itemText);
-                } else {
-                    // Check if the existing window is closed
-                    if (!itemStage.isShowing()) {
-                        createItemStage(title, itemText);
-                    } else {
-                        // Update the scene and title of the existing window
-                        updateItemStage(title, itemText);
-                    }
+                try {
+                    JSONObject selectedItemObject = items.getJSONObject(selectedIndex);
+                    manageItemStage(selectedItemObject.getString("title"), selectedItemObject.getString("text"));
+                } catch (JSONException e) {
+                    e.printStackTrace(); // Log or show error
                 }
             }
         }
     }
 
     /**
-     * Creates a new item window with the specified title and text.
+     * Manages the item stage, either creating a new one or updating an existing window.
      */
-    private void createItemStage(String title, String text) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/pages/components/item.fxml"));
-        try {
-            Parent root = loader.load();
-            ItemController itemController = loader.getController();
-            itemController.setTitle(title);
-            itemController.setText(text);
-
-            itemStage = new Stage();
-            itemStage.setScene(new Scene(root, 400, 350));
-            itemStage.setTitle(title);
-            itemStage.setOnCloseRequest(this::onItemStageClosed);
-            itemStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
+    private void manageItemStage(String title, String text) {
+        if (itemStage == null || !itemStage.isShowing()) {
+            createOrUpdateItemStage(title, text, true);
+        } else {
+            createOrUpdateItemStage(title, text, false);
         }
     }
 
     /**
-     * Updates an existing item window with the specified title and text.
+     * Creates or updates an item window with the specified title and text.
      */
-    private void updateItemStage(String title, String text) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/pages/components/item.fxml"));
+    private void createOrUpdateItemStage(String title, String text, boolean createNew) {
         try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/pages/components/item.fxml"));
             Parent root = loader.load();
             ItemController itemController = loader.getController();
             itemController.setTitle(title);
             itemController.setText(text);
 
-            itemStage.getScene().setRoot(root);
+            if (createNew) {
+                itemStage = new Stage();
+                itemStage.setScene(new Scene(root, 400, 350));
+                itemStage.setOnCloseRequest(this::onItemStageClosed);
+            } else {
+                itemStage.getScene().setRoot(root);
+            }
+
             itemStage.setTitle(title);
+            itemStage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }

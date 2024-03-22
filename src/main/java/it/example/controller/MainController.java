@@ -1,5 +1,8 @@
 package it.example.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -7,53 +10,51 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 
 public class MainController {
+
     @FXML
     private VBox contentContainer;
+
     @FXML
-    private Button explanationButton;
-    @FXML
-    private Button codingButton;
-    @FXML
+    private Button explanationButton, codingButton;
+
     private Button activeButton;
 
-    @FXML
-    private Button switchToPage2Button; // Add the reference to the button
+    private final PageCache pageCache = new PageCache();
 
-    private PageCache pageCache = new PageCache(); // Instance of PageCache
+    // Mapping of buttons to their corresponding page paths
+    private final Map<Button, String> buttonPageMap = new HashMap<>();
 
     @FXML
     private void initialize() {
-        activeButton = explanationButton; // Active page
+        // Initialize the button to page map
+        buttonPageMap.put(explanationButton, "pages/explainingCode.fxml");
+        buttonPageMap.put(codingButton, "pages/coding.fxml");
+        
+        // Set the initial active button and load its page
+        setActiveButton(explanationButton);
     }
 
-    /**
-     * Handle the button click event to switch pages.
-     *
-     * @param event The action event triggered by a button click.
-     */
-    @FXML
-    private void switchPage(ActionEvent event) {
-        Button clickedButton = (Button) event.getSource();
-        String directory = "pages/";
-
-        // Remove the 'active' class from the previous button
+    private void setActiveButton(Button button) {
         if (activeButton != null) {
             activeButton.getStyleClass().remove("active");
         }
-
-        // Set the new currently active button
-        activeButton = clickedButton;
+        activeButton = button;
         activeButton.getStyleClass().add("active");
 
-        // Load the desired page from the cache or from the FXML file
-        String pagePath = directory;
-        if (clickedButton.getText().equals("Explanation")) {
-            pagePath += "explainingCode.fxml";
-        } else if (clickedButton.getText().equals("Coding")) {
-            pagePath += "coding.fxml";
-        }
+        loadPageForActiveButton();
+    }
 
-        Node pageNode = pageCache.getPage(pagePath); // Use of PageCache
-        contentContainer.getChildren().setAll(pageNode);
+    private void loadPageForActiveButton() {
+        // Retrieve and load the page for the active button
+        String pagePath = buttonPageMap.get(activeButton);
+        if (pagePath != null) {
+            Node pageNode = pageCache.getPage(pagePath);
+            contentContainer.getChildren().setAll(pageNode);
+        }
+    }
+
+    @FXML
+    private void handleButtonClick(ActionEvent event) {
+        setActiveButton((Button) event.getSource());
     }
 }
