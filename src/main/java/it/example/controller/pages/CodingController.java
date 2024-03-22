@@ -10,7 +10,7 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.XYDataset;
 
-import it.example.util.SoundUtil;
+import it.example.util.SoundManager;
 import it.example.util.chart.ChartUtil;
 import it.example.util.chart.DataGenerator;
 import javafx.concurrent.Task;
@@ -76,7 +76,7 @@ public class CodingController {
 
             // Set the formula and update the SoundUtil wave data
             // SoundUtil.setFormula(formula);
-            SoundUtil.setWaveData(data[1]);
+            SoundManager.getInstance().setWaveData(data[1]);
 
             // Update the chart
             updateChart();
@@ -99,7 +99,7 @@ public class CodingController {
             @Override
             protected Void call() throws Exception {
                 // Call SoundUtil to play the sound
-                SoundUtil.play();
+                SoundManager.getInstance().play();
                 return null;
             }
         };
@@ -123,7 +123,7 @@ public class CodingController {
             @Override
             protected Void call() throws Exception {
                 // Call SoundUtil to stop the sound
-                SoundUtil.stop();
+                SoundManager.getInstance().stop();
                 return null;
             }
         };

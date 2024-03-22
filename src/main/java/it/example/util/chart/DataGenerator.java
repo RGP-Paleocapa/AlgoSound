@@ -5,6 +5,11 @@ package it.example.util.chart;
  */
 public class DataGenerator {
 
+    // Constants
+    private static final double MIN_X = 0;
+    private static final double MAX_X = 1_000;
+    private static final double STEP = 1.0;
+
     /**
      * Generates data based on the specified formula.
      *
@@ -12,12 +17,10 @@ public class DataGenerator {
      * @return a two-dimensional array containing the generated data
      */
     public static double[][] generate(String formula) {
-        double minX = 0;      // Minimum value of x
-        double maxX = 1_000;  // Maximum value of x
-        double step = 1.0;    // Step between x values
 
-        // Calculate the number of points based on the range and step
-        int numPoints = (int) ((maxX - minX) / step) + 1;
+
+        // Calculate the number of points based on the range and STEP
+        int numPoints = (int) ((MAX_X - MIN_X) / STEP) + 1;
 
         // Arrays for x and y data
         double[] xData = new double[numPoints];
@@ -25,7 +28,7 @@ public class DataGenerator {
 
         // Generate data for each point
         for (int i = 0; i < numPoints; i++) {
-            double x = minX + i * step;
+            double x = MIN_X + i * STEP;
 
             // Evaluate the equation using EquationEvaluator
             double y = EquationEvaluator.evaluate(formula, x);
