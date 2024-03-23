@@ -22,9 +22,8 @@ public class App extends Application {
 
     private void setupPrimaryStage(Stage primaryStage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/main.fxml"));
-        Scene scene = new Scene(root);
-        primaryStage.setMinWidth(1000);
-        primaryStage.setMinHeight(650);
+        Scene scene = new Scene(root, 1000, 650);
+        primaryStage.setResizable(false);
         primaryStage.setScene(scene);
         primaryStage.setOnCloseRequest(this::handleCloseRequest);
     }

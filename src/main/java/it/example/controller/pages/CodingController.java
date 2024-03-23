@@ -10,9 +10,11 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.XYDataset;
 
+import it.example.util.AlertUtil;
 import it.example.util.SoundManager;
 import it.example.util.chart.ChartUtil;
 import it.example.util.chart.DataGenerator;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
@@ -36,9 +38,8 @@ public class CodingController {
 
     // Buttons
     @FXML private Button generateButton;          // Button to generate the chart
-    @FXML private Button playButton;              // Button to play sound
-    @FXML private Button stopButton;              // Button to stop sound
     @FXML private Button resetButton;             // Button to reset the layout
+    @FXML private Button soundButton;
 
     private boolean useTextField = true;
 
@@ -46,7 +47,7 @@ public class CodingController {
 
     /** Initializes the controller. */
     @FXML public void initialize() {
-        handleSecondarySections(false);
+        updateSecondarySectionsVisibility(false);
         switchChoiceBox();
         SwingUtilities.invokeLater(() -> { ChartUtil.createChartPanel(swingChartsSection); });
     }
@@ -86,64 +87,59 @@ public class CodingController {
         Thread generateDataThread = new Thread(generateDataTask);
         generateDataThread.start();
 
-        handleSecondarySections(true);
+        updateSecondarySectionsVisibility(true);
     }
 
     /* ********************* SoundUtil Buttons ***********************/
 
-    /** Handles the play sound button click. */
+    /** Toggles sound play and stop, and updates button text accordingly. */
     @FXML
-    private void playSound() {
-        // Method to handle the "Play" button click
-        Task<Void> playSoundTask = new Task<>() {
+    private void handleSound() {
+        if ("Play".equals(soundButton.getText())) {
+            executeSoundTask(SoundManager.getInstance()::play, "Stop");
+        } else {
+            executeSoundTask(SoundManager.getInstance()::stop, "Play");
+        }
+    }
+
+    /**
+     * Executes a sound-related task (play or stop) in a background thread and updates the button text upon success.
+     * Logs errors to the console if the task fails.
+     *
+     * @param soundAction The sound action to perform (play or stop).
+     * @param buttonText  The text to set on the button after the task succeeds.
+     */
+    private void executeSoundTask(Runnable soundAction, String buttonText) {
+        Task<Void> soundTask = new Task<>() {
             @Override
-            protected Void call() throws Exception {
-                // Call SoundUtil to play the sound
-                SoundManager.getInstance().play();
+            protected Void call() {
+                try {
+                    soundAction.run();
+                } catch (Exception e) {
+                    System.err.println("Error during sound operation: " + e.getMessage());
+                    e.printStackTrace();
+                    AlertUtil.showErrorAlert("Error during sound operation", e.getMessage());
+                    throw e; // Rethrow to let the task handle it as a failure
+                }
                 return null;
             }
         };
-
-        // Add an action to be executed once the Task is completed
-        playSoundTask.setOnSucceeded(event -> {
-            // Show a visual feedback, e.g., change the button text
-            // playButton.setText("Sound Played");
+        soundTask.setOnSucceeded(event -> Platform.runLater(() -> soundButton.setText(buttonText)));
+        soundTask.setOnFailed(event -> {
+            Throwable exception = soundTask.getException();
+            System.err.println("Sound task failed: " + exception.getMessage());
+            exception.printStackTrace();
+            AlertUtil.showErrorAlert("Sound task failed", exception.getMessage());
         });
-
-        // Start the Task in a separate thread
-        Thread playSoundThread = new Thread(playSoundTask);
-        playSoundThread.start();
+        new Thread(soundTask).start();
     }
 
-    /** Handles the stop sound button click. */
-    @FXML
-    private void stopSound() {
-        // Method to handle the "Stop" button click
-        Task<Void> stopSoundTask = new Task<>() {
-            @Override
-            protected Void call() throws Exception {
-                // Call SoundUtil to stop the sound
-                SoundManager.getInstance().stop();
-                return null;
-            }
-        };
-
-        // Add an action to be executed once the Task is completed
-        stopSoundTask.setOnSucceeded(event -> {
-            // Show a visual feedback, e.g., change the button text
-        });
-
-        // Start the Task in a separate thread
-        Thread stopSoundThread = new Thread(stopSoundTask);
-        stopSoundThread.start();
-    }
-
-    /** Handles the reset button click. */
+    /** Handles the reset button click, resetting the UI and stopping any sound. */
     @FXML
     private void resetButton() {
-        handleSecondarySections(false);
-        resetFields();
-        stopSound();
+        updateSecondarySectionsVisibility(false);
+        resetFieldsAndSections();
+        executeSoundTask(SoundManager.getInstance()::stop, "Play");
     }
 
     // ChoiceBox
@@ -232,8 +228,12 @@ public class CodingController {
         chartPanel.repaint();
     }
 
-    /** Handles the visibility of sections. */
-    private void handleSecondarySections(boolean showSections) {
+    /**
+     * Updates the visibility and manageability of secondary sections based on the specified state.
+     *
+     * @param showSections The state to set for visibility and manageability of sections.
+     */
+    private void updateSecondarySectionsVisibility(boolean showSections) {
         swingChartsSection.setManaged(showSections);
         swingChartsSection.setVisible(showSections);
         soundSection.setManaged(showSections);
@@ -243,10 +243,12 @@ public class CodingController {
         graficiSection.setVisible(!showSections);
     }
 
-    /** Resets the input fields and sections. */
-    private void resetFields() {
+    /**
+     * Resets all input fields and secondary sections to their default state.
+     */
+    private void resetFieldsAndSections() {
         formulaTextArea.setText(null);
         formulaTextField.setText(null);
-        handleSecondarySections(false);
+        updateSecondarySectionsVisibility(false);
     }
 }

@@ -40,8 +40,7 @@
     <!-- Sound Section -->
     <HBox fx:id="soundSection" spacing="10.0">
         <Label text="Sound" />
-        <Button fx:id="playButton" onAction="#playSound" text="Play"/>
-        <Button fx:id="stopButton" onAction="#stopSound" text="Stop"/>
+        <Button fx:id="soundButton" onAction="#handleSound" text="Play" />
         <Button fx:id="resetButton" onAction="#resetButton" text="Reset"/>
     </HBox>
 </VBox>

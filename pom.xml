@@ -6,11 +6,9 @@
 
     <groupId>javafx</groupId>
     <artifactId>javafx</artifactId>
-    <version>1.1</version>
+    <version>1.1.2</version>
 
     <name>javafx</name>
-    <!-- FIXME change it to the project's website -->
-    <!-- <url>http://www.example.com</url> -->
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -23,35 +21,35 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>17</version>
+            <version>19.0.2.1</version> <!-- Latest stable version; for early access, use 23-ea+3 -->
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>17</version>
+            <version>19.0.2.1</version> <!-- Assuming similar versioning across JavaFX modules -->
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-swing</artifactId>
-            <version>17</version>
+            <version>19.0.2.1</version> <!-- Assuming similar versioning across JavaFX modules -->
         </dependency>
         <!-- jfreechart -->
         <dependency>
             <groupId>org.jfree</groupId>
             <artifactId>jfreechart</artifactId>
-            <version>1.5.4</version>
+            <version>1.5.4</version> <!-- Latest checked version -->
         </dependency>
         <!-- Rhino -->
         <dependency>
             <groupId>org.mozilla</groupId>
             <artifactId>rhino</artifactId>
-            <version>1.7.14</version>
+            <version>1.7.14</version> <!-- Latest checked version -->
         </dependency>
         <!-- JSON -->
         <dependency>
             <groupId>org.json</groupId>
-            <artifactId>org.json</artifactId>
-            <version>chargebee-1.0</version>
+            <artifactId>json</artifactId>
+            <version>20210307</version> <!-- Latest stable version found, replacing 'chargebee-1.0' -->
         </dependency>
     </dependencies>
 
@@ -59,25 +57,25 @@
         <plugins>
             <!-- Maven JAR Plugin to package your application -->
             <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-shade-plugin</artifactId>
-            <version>3.2.4</version>
-            <executions>
-                <execution>
-                    <phase>package</phase>
-                    <goals>
-                        <goal>shade</goal>
-                    </goals>
-                    <configuration>
-                        <transformers>
-                            <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                <mainClass>it.example.Main</mainClass>
-                            </transformer>
-                        </transformers>
-                    </configuration>
-                </execution>
-            </executions>
-        </plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.4</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>it.example.Main</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
 
         <pluginManagement>

@@ -11,7 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import it.example.controller.pages.components.ItemController;
+import it.example.controller.components.ItemController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -110,7 +110,7 @@ public class ExplainingCodeController {
      */
     private void createOrUpdateItemStage(String title, String text, boolean createNew) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/pages/components/item.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/components/item.fxml"));
             Parent root = loader.load();
             ItemController itemController = loader.getController();
             itemController.setTitle(title);
