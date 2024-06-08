@@ -1,0 +1,15 @@
+.animated-text-area {
+    -fx-pref-width: 350px;
+    -fx-pref-height: 200px; /* Adjust the height as needed */
+    -fx-font-size: 1.2em;
+    -fx-background-color: white;
+    -fx-border-color: #ccc;
+    -fx-border-width: 1px;
+    -fx-background-radius: 5px; /* Rounded border */
+    -fx-border-radius: 5px; /* Rounded border */
+    -fx-padding: 5px; /* Add padding */
+}
+
+.animated-text-area:focused {
+    -fx-border-color: blue;
+}

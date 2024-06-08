@@ -1,0 +1,11 @@
+[
+    {
+      "buttonId": "explanationButton",
+      "pagePath": "pages/explainingCode.fxml"
+    },
+    {
+      "buttonId": "codingButton",
+      "pagePath": "pages/coding.fxml"
+    }
+  ]
+  

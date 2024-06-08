@@ -1,0 +1,19 @@
+.button-style {
+    -fx-padding: 10px 20px;
+    -fx-background-color: #0053A0; /* Dimmer normal background color */
+    -fx-text-fill: white;
+    -fx-border-color: #00428B;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 0); /* Subtle shadow for normal state */
+}
+
+.button-style:hover {
+    -fx-background-color: #66b3ff; /* Brighter hover color */
+    -fx-text-fill: black;
+}
+
+.button-style:focused {
+    -fx-background-color: red; /* Red color on focus */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0); /* More pronounced shadow on focus */
+}

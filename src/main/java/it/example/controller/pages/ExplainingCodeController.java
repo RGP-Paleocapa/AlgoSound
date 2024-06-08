@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import it.example.controller.components.ItemController;
+import it.example.util.alert.AlertUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -49,7 +50,7 @@ public class ExplainingCodeController {
             listView.setItems(itemNames);
             listView.setOnMouseClicked(this::handleListViewClick);
         } catch (JSONException | IOException e) {
-            e.printStackTrace(); // In a real application, log this error or show to the user.
+            AlertUtil.showErrorAlert("Loading Error", "Failed to load item data.");
         }
     }
 
@@ -69,7 +70,7 @@ public class ExplainingCodeController {
      * Loads items from a JSON file into the 'items' JSONArray.
      */
     private void loadItemsFromJSON() throws JSONException, IOException {
-        try (InputStream inputStream = getClass().getResourceAsStream("/data/data.json");
+        try (InputStream inputStream = getClass().getResourceAsStream("/data/explainingData.json");
              InputStreamReader inputStreamReader = new InputStreamReader(inputStream)) {
             JSONTokener tokener = new JSONTokener(inputStreamReader);
             items = new JSONArray(tokener);
@@ -88,7 +89,7 @@ public class ExplainingCodeController {
                     JSONObject selectedItemObject = items.getJSONObject(selectedIndex);
                     manageItemStage(selectedItemObject.getString("title"), selectedItemObject.getString("text"));
                 } catch (JSONException e) {
-                    e.printStackTrace(); // Log or show error
+                    AlertUtil.showErrorAlert("Item Error", "Failed to display item details.");
                 }
             }
         }
@@ -120,6 +121,7 @@ public class ExplainingCodeController {
                 itemStage = new Stage();
                 itemStage.setScene(new Scene(root, 400, 350));
                 itemStage.setOnCloseRequest(this::onItemStageClosed);
+                itemStage.setAlwaysOnTop(true); // Keep this stage above others
             } else {
                 itemStage.getScene().setRoot(root);
             }
@@ -127,9 +129,11 @@ public class ExplainingCodeController {
             itemStage.setTitle(title);
             itemStage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // This line will print the stack trace of the exception
+            AlertUtil.showErrorAlert("Window Error", "Failed to open item details window.");
         }
     }
+
 
     /**
      * Handles the window close event by setting the reference to null.

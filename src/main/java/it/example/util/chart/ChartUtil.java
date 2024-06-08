@@ -1,6 +1,8 @@
 package it.example.util.chart;
 
 import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.SwingUtilities;
 
@@ -11,83 +13,71 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.DefaultXYDataset;
 import org.jfree.data.xy.XYDataset;
 
+import it.example.util.alert.AlertUtil;
 import javafx.embed.swing.SwingNode;
 
 public class ChartUtil {
-    private static DefaultXYDataset dataset;
+    private static DefaultXYDataset dataset = new DefaultXYDataset();
+    private static List<DatasetUpdateListener> listeners = new ArrayList<>();
+    private static final int DATA_LENGTH = 1000;
 
-    /**
-     * Creates an empty chart panel using JFreeChart and embeds it in the provided SwingNode.
-     *
-     * @param swingNode the SwingNode in which to embed the chart panel
-     */
-    public static void createChartPanel(SwingNode swingNode) {
-        try {
-            // Create an empty chart using JFreeChart
-            JFreeChart chart = createEmptyChart();
+    public interface DatasetUpdateListener {
+        void onDatasetUpdated(XYDataset dataset);
+    }
 
-            // Create the chart panel
-            ChartPanel chartPanel = new ChartPanel(chart);
-            chartPanel.setPreferredSize(new Dimension(800, 400));
+    public static void addDatasetUpdateListener(DatasetUpdateListener listener) {
+        listeners.add(listener);
+    }
 
-            // Embed the chart panel in the SwingNode
-            SwingUtilities.invokeLater(() -> swingNode.setContent(chartPanel));
-        } catch (Exception e) {
-            // Handle error during chart panel creation
-            e.printStackTrace();
+    private static void notifyListeners() {
+        for (DatasetUpdateListener listener : listeners) {
+            listener.onDatasetUpdated(dataset);
         }
     }
 
-    /**
-     * Creates an empty chart using JFreeChart.
-     *
-     * @return the empty chart
-     */
-    private static JFreeChart createEmptyChart() {
-        // Create an empty dataset for the chart
-        dataset = new DefaultXYDataset();
-
-        // Create an empty XY line chart using JFreeChart
-        JFreeChart chart = ChartFactory.createXYLineChart(
-                "Empty Chart",
-                "X",
-                "Y",
-                dataset,
-                PlotOrientation.VERTICAL,
-                false,
-                false,
-                false
-        );
-
-        // Set the chart style
-        // chart.setBackgroundPaint(Color.ORANGE);
-        // chart.getPlot().setBackgroundPaint(Color.BLUE);
-
-        return chart;
+    public static void createChartPanel(SwingNode swingNode) {
+        try {
+            JFreeChart chart = createXYLineChart("Empty Chart", "X", "Y", dataset, false);
+            ChartPanel chartPanel = new ChartPanel(chart);
+            chartPanel.setPreferredSize(new Dimension(800, 400));
+            SwingUtilities.invokeLater(() -> swingNode.setContent(chartPanel));
+        } catch (Exception e) {
+            AlertUtil.showErrorAlert("Chart Creation Error", "An error occurred while creating the chart: " + e.getMessage());
+        }
     }
 
-    /**
-     * Updates the chart dataset with the new provided data.
-     *
-     * @param xData the new X-axis data to add to the dataset
-     * @param yData the new Y-axis data to add to the dataset
-     */
-    public static void updateChartDataset(double[] xData, double[] yData) {
-        // Create a new empty dataset
-        DefaultXYDataset newDataset = new DefaultXYDataset();
-
-        // Add the new data as a new series in the new dataset
-        newDataset.addSeries("Series", new double[][] {xData, yData});
-
-        // Update the reference to the new dataset
-        dataset = newDataset;
+    public static void updateChart(SwingNode swingNode, XYDataset newDataset, String title, String xAxisLabel, String yAxisLabel) {
+        SwingUtilities.invokeLater(() -> {
+            if (swingNode.getContent() instanceof ChartPanel) {
+                ChartPanel chartPanel = (ChartPanel) swingNode.getContent();
+                JFreeChart chart = createXYLineChart(title, xAxisLabel, yAxisLabel, newDataset, true);
+                chartPanel.setChart(chart);
+                chartPanel.repaint();
+            }
+        });
     }
 
-    /**
-     * Returns the current chart dataset.
-     *
-     * @return the chart dataset
-     */
+    public static void updateChartDataset(short[] xData, short[] yData) {
+        double[] xDataDouble = new double[DATA_LENGTH];
+        double[] yDataDouble = new double[DATA_LENGTH];
+        final double shortMaxValue = 32767.0; // maximum value of a short
+
+        for (int i = 0; i < DATA_LENGTH; i++) {
+            xDataDouble[i] = i;
+            yDataDouble[i] = yData[i] / shortMaxValue;
+        }
+        
+        // Update the dataset with the double arrays
+        dataset.addSeries("Series", new double[][] {xDataDouble, yDataDouble});
+        notifyListeners(); // Notify all listeners that the dataset has been updated
+    }
+
+
+
+    private static JFreeChart createXYLineChart(String title, String xAxisLabel, String yAxisLabel, XYDataset dataset, boolean legend) {
+        return ChartFactory.createXYLineChart(title, xAxisLabel, yAxisLabel, dataset, PlotOrientation.VERTICAL, legend, true, false);
+    }
+
     public static XYDataset getDataset() {
         return dataset;
     }

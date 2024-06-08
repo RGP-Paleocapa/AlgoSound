@@ -1,0 +1,20 @@
+.animated-choice-box {
+    -fx-background-color: #F9A825; /* Orange background color */
+    -fx-border-color: #FFD54F; /* Orange border color */
+    -fx-border-width: 1px; /* Border width */
+    -fx-border-radius: 5px; /* Rounded corners */
+    -fx-padding: 7px 10px; /* Padding */
+    -fx-font-size: 14px; /* Font size */
+    -fx-text-fill: #333; /* Text color */
+    -fx-background-radius: 5px; /* Rounded corners */
+    -fx-alignment: center-left; /* Align text to the left */
+}
+
+.animated-choice-box:hover {
+    -fx-background-color: #FFC107; /* Hover background color */
+}
+
+.animated-choice-box:focused {
+    -fx-border-color: #0078D7; /* Focus border color */
+    -fx-background-color: #fff; /* Focus background color */
+}
