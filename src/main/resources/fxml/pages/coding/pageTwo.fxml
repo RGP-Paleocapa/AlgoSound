@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.embed.swing.SwingNode?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<!-- <?import it.example.controller.pages.CodingController?> -->
+<?import it.example.controller.components.AnimatedLabel?>
+<?import it.example.controller.components.AnimatedButton?>
+
+<VBox xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+    fx:controller="it.example.controller.pages.coding.PageTwoController"
+    stylesheets="css/pages.css"
+    spacing="10"
+    alignment="CENTER">
+
+    <!-- Swing Chart Section -->
+    <SwingNode fx:id="swingChartsSection" />
+
+    <!-- Sound Section -->
+    <HBox spacing="10.0">
+        <AnimatedLabel text="Sound: " />
+        <AnimatedButton fx:id="soundButton" onAction="#handleSound" text="Play" />
+        <AnimatedButton fx:id="resetButton" onAction="#resetButton" text="Reset"/>
+    </HBox>
+</VBox>

@@ -1,40 +1,45 @@
-package it.example.util;
+package it.example.util.sound;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 
+import it.example.util.alert.AlertUtil;
+
 public class SoundManager {
     private AudioFormat audioF;
     private SourceDataLine sourceDL;
     private volatile boolean playing = false;
 
-    private double[] waveData;
+    private short[] shortData;
     private Thread soundThread;
 
-    private static final SoundManager instance = new SoundManager();
+    private static SoundManager instance;
 
     private SoundManager() {}
 
     public static synchronized SoundManager getInstance() {
+        if (instance == null) {
+            instance = new SoundManager();
+        }
         return instance;
     }
 
     /**
-     * Start playing sound if not already playing and waveData is available.
+     * Start playing sound if not already playing and shortData is available.
      */
     public void play() {
-        if (!playing && waveData != null) {
+        if (!playing && shortData != null) {
             playing = true;
-            audioF = new AudioFormat(44100, 8, 1, true, false); // AudioFormat at 8 bit, mono
+            audioF = new AudioFormat(44100, 16, 1, true, false); // AudioFormat at 16 bit, mono
             try {
                 sourceDL = AudioSystem.getSourceDataLine(audioF);
                 sourceDL.open(audioF);
                 sourceDL.start();
                 startSoundThread();
             } catch (LineUnavailableException e) {
-                e.printStackTrace();
+                AlertUtil.showErrorAlert("Playback Error", "Failed to start audio playback. Audio line unavailable.");
                 playing = false; // Set playing to false to stop the playback process
             }
         }
@@ -42,22 +47,23 @@ public class SoundManager {
 
     private void startSoundThread() {
         soundThread = new Thread(() -> {
-            int bufferSize = 1024;
-            byte[] buf = new byte[bufferSize];
+            int bufferSize = 44100; // Buffer size in samples, 1 second of audio
 
-            for (int i = 0; playing; i = (i + 1) % waveData.length) {
-                byte sample = (byte) (waveData[i] * 100);
+            byte[] buffer = new byte[bufferSize * 2]; // 2 bytes per sample (16-bit audio)
 
-                buf[i % bufferSize] = sample;
-                if (i % bufferSize == bufferSize - 1 || i == waveData.length - 1) {
-                    sourceDL.write(buf, 0, (i % bufferSize) + 1);
+            while (playing) {
+                for (int i = 0; i < bufferSize && playing; i++) {
+                    buffer[2 * i] = (byte) (shortData[i] & 0xff);
+                    buffer[2 * i + 1] = (byte) ((shortData[i] >> 8) & 0xff);
                 }
+                sourceDL.write(buffer, 0, buffer.length);
             }
 
             sourceDL.drain();
             sourceDL.stop();
             sourceDL.close();
         });
+
         soundThread.start();
     }
 
@@ -82,13 +88,9 @@ public class SoundManager {
 
     /**
      * Set the wave data to be played.
-     * @param waveData The array containing the waveform data.
+     * @param shortData The array containing the waveform data.
      */
-    public void setWaveData(double[] waveData) {
-        this.waveData = waveData;
-    }
-
-    public double[] getWaveData() {
-        return waveData;
+    public void setWaveData(short[] shortData) {
+        this.shortData = shortData;
     }
 }

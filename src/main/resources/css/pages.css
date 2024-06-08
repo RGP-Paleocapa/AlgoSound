@@ -1,20 +1,19 @@
+@import url(components/animated-text-field.css);
+@import url(components/animated-label.css);
+@import url(components/animated-button.css);
+@import url(components/animated-text-area.css);
+@import url(components/animated-choice-box.css);
+@import url(components/syntax-highlighting.css);
+
+
 /* CSS per il VBox */
 .vbox-container {
     -fx-padding: 2.5em
 }
 
-.textfield {
-    -fx-pref-width: 350px;
-    -fx-alignment: baseline-left;
-    -fx-font-size: 1.3em;
-}
-
-.choicebox .label {
+/* ChoiceBox > Label */
+/* .choicebox .label {
     -fx-pref-width: 350px;
     -fx-alignment: center;
     -fx-font-size: 1.3em;
-}
-
-Button {
-    -fx-text-fill: #000;
-}
+} */

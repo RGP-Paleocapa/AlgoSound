@@ -1,0 +1,14 @@
+.animated-text-field {
+    -fx-pref-width: 350px;
+    -fx-alignment: baseline-left;
+    -fx-font-size: 1.3em;
+    -fx-background-color: white;
+    -fx-border-color: blue;
+    -fx-border-width: 1;
+    -fx-background-radius: 5px; /* Rounded border */
+    -fx-border-radius: 5px; /* Rounded border */
+}
+
+.animated-text-field:focused {
+    -fx-border-color: blue;
+}

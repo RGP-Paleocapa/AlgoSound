@@ -34,3 +34,9 @@ target/
 
 # Maven dependency reduced POM
 dependency-reduced-pom.xml
+
+# Maven version backup POM
+pom.xml.versionsBackup
+
+# Logs
+logs/*
