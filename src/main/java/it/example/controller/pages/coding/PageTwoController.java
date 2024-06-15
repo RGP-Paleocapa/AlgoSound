@@ -17,21 +17,34 @@ import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
 import javafx.util.Duration;
 
+/**
+ * Controller class for the second page of the application.
+ */
 public class PageTwoController implements DatasetUpdateListener {
 
     @FXML
     private SwingNode swingChartsSection;
+
     @FXML
     private AnimatedButton soundButton;
+
     @FXML
     private AnimatedButton resetButton;
 
+    /**
+     * Initializes the controller.
+     */
     @FXML
     private void initialize() {
         SwingUtilities.invokeLater(() -> ChartUtil.createChartPanel(swingChartsSection));
         ChartUtil.addDatasetUpdateListener(this);
     }
 
+    /**
+     * Called when the dataset is updated.
+     *
+     * @param dataset the updated dataset
+     */
     @Override
     public void onDatasetUpdated(XYDataset dataset) {
         // Delay the update to ensure the chart becomes visible without user interaction
@@ -40,6 +53,9 @@ public class PageTwoController implements DatasetUpdateListener {
         pause.play();
     }
 
+    /**
+     * Handles the sound button action.
+     */
     @FXML
     private void handleSound() {
         if ("Play".equals(soundButton.getText())) {
@@ -49,6 +65,12 @@ public class PageTwoController implements DatasetUpdateListener {
         }
     }
 
+    /**
+     * Executes a sound task and updates the button text upon completion.
+     *
+     * @param soundAction the sound action to execute
+     * @param buttonText the text to set on the button after the action
+     */
     private void executeSoundTask(Runnable soundAction, String buttonText) {
         AlertingTask<Void> soundTask = new AlertingTask<>() {
             @Override
@@ -68,6 +90,9 @@ public class PageTwoController implements DatasetUpdateListener {
         new Thread(soundTask).start();
     }
 
+    /**
+     * Handles the reset button action.
+     */
     @FXML
     private void resetButton() {
         executeSoundTask(SoundManager.getInstance()::stop, "Play");

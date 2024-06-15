@@ -12,6 +12,9 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 
+/**
+ * Controller class for the main page of the application.
+ */
 public class MainController implements Navigator {
 
     @FXML private VBox contentContainer;
@@ -26,6 +29,9 @@ public class MainController implements Navigator {
     // Mapping of buttons to their corresponding page paths
     private final Map<Button, String> buttonPageMap = new HashMap<>();
 
+    /**
+     * Initializes the controller, called when the FXML is loaded.
+     */
     @FXML
     private void initialize() {
         // Initialize the button to page map
@@ -36,6 +42,11 @@ public class MainController implements Navigator {
         setActiveButton(explanationButton);
     }
 
+    /**
+     * Sets the active button and updates its style.
+     *
+     * @param button the button to set as active
+     */
     private void setActiveButton(Button button) {
         if (activeButton != null) {
             activeButton.getStyleClass().remove("active");
@@ -46,6 +57,9 @@ public class MainController implements Navigator {
         loadPageForActiveButton();
     }
 
+    /**
+     * Loads the page corresponding to the active button.
+     */
     private void loadPageForActiveButton() {
         // Retrieve and load the page for the active button
         String pagePath = buttonPageMap.get(activeButton);
@@ -57,15 +71,25 @@ public class MainController implements Navigator {
         }
     }
 
+    /**
+     * Handles button click events to switch the active button and load the corresponding page.
+     *
+     * @param event the action event
+     */
     @FXML
     private void handleButtonClick(ActionEvent event) {
         setActiveButton((Button) event.getSource());
     }
 
+    /**
+     * Navigates to a specific page based on the pageId.
+     *
+     * @param pageId the id of the page to navigate to
+     */
     @Override
     public void navigateTo(String pageId) {
         // Directly load and display the page based on the pageId argument
-        Node pageNode = pageCache.switchPage(pageId); // Using getPage() which might need to be adjusted if it expects path instead of id
+        Node pageNode = pageCache.switchPage(pageId);
         if (pageNode != null) {
             contentContainer.getChildren().setAll(pageNode);
         } else {

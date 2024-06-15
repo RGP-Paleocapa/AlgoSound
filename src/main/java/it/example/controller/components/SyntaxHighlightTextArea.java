@@ -4,11 +4,15 @@ import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.model.StyleSpans;
 import org.fxmisc.richtext.model.StyleSpansBuilder;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * A custom text area with syntax highlighting for code.
+ */
 public class SyntaxHighlightTextArea extends CodeArea {
 
     private static final String[] KEYWORDS = new String[]{
@@ -42,6 +46,9 @@ public class SyntaxHighlightTextArea extends CodeArea {
                     + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
     );
 
+    /**
+     * Constructs a new SyntaxHighlightTextArea with default settings.
+     */
     public SyntaxHighlightTextArea() {
         super();
         setParagraphGraphicFactory(LineNumberFactory.get(this));
@@ -50,6 +57,12 @@ public class SyntaxHighlightTextArea extends CodeArea {
         });
     }
 
+    /**
+     * Computes the syntax highlighting for the given text.
+     *
+     * @param text the text to highlight
+     * @return the style spans for the highlighted text
+     */
     private StyleSpans<Collection<String>> computeHighlighting(String text) {
         Matcher matcher = PATTERN.matcher(text);
         int lastKwEnd = 0;
