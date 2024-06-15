@@ -1,30 +1,29 @@
 package it.example.controller.pages.coding;
 
-// import javax.swing.SwingUtilities;
-
 import it.example.NavigationService;
 import it.example.controller.components.AnimatedButton;
 import it.example.controller.components.AnimatedChoiceBox;
-// import it.example.controller.components.AnimatedTextArea;
 import it.example.controller.components.AnimatedTextField;
 import it.example.controller.components.SyntaxHighlightTextArea;
-// import it.example.controller.components.SyntaxHighlightTextArea;
 import it.example.util.alert.AlertUtil;
 import it.example.util.alert.AlertingTask;
 import it.example.util.chart.ChartUtil;
 import it.example.util.math.FormulaDataGenerator;
 import it.example.util.sound.SoundManager;
-// import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
 
+/**
+ * Controller class for the first page of the application.
+ */
 public class PageOneController {
     @FXML private AnimatedChoiceBox<String> choiceBox;
     @FXML private AnimatedTextField formulaTextField;
     @FXML private SyntaxHighlightTextArea formulaTextArea;
     @FXML private AnimatedButton generateButton;
 
-    // @FXML private SwingNode syntaxArea;
-
+    /**
+     * Initializes the controller.
+     */
     @FXML
     private void initialize() {
         // SwingUtilities.invokeLater(() -> {
@@ -32,6 +31,9 @@ public class PageOneController {
         // });
     }
 
+    /**
+     * Handles the action of the generate chart button.
+     */
     @FXML
     private void generateChartButton() {
         try {
@@ -49,6 +51,11 @@ public class PageOneController {
         }
     }
 
+    /**
+     * Retrieves the formula string based on the user's selection.
+     *
+     * @return the formula string, or null if the selection or input is invalid
+     */
     private String getFormulaString() {
         // Assuming choiceBox might be null or its value might be null
         if (choiceBox == null || choiceBox.getValue() == null) {
@@ -58,6 +65,12 @@ public class PageOneController {
         return "Formula".equals(choiceBox.getValue()) ? formulaTextField.getText() : formulaTextArea.getText();
     }
 
+    /**
+     * Creates a task for generating data based on the given formula string.
+     *
+     * @param formulaString the formula string to use for data generation
+     * @return an AlertingTask for generating the data
+     */
     private AlertingTask<short[][]> createGenerateDataTask(String formulaString) {
         return new AlertingTask<>() {
             @Override
@@ -71,6 +84,11 @@ public class PageOneController {
         };
     }
 
+    /**
+     * Sets event handlers for the data generation task.
+     *
+     * @param generateDataTask the task for generating data
+     */
     private void setGenerateDataTaskEventHandler(AlertingTask<short[][]> generateDataTask) {
         generateDataTask.setOnSucceeded(event -> {
             short[][] data = generateDataTask.getValue();
@@ -82,6 +100,11 @@ public class PageOneController {
         });
     }
 
+    /**
+     * Updates the chart and sound based on the generated data.
+     *
+     * @param data the generated data
+     */
     private void updateChartAndSound(short[][] data) {
         // Assuming data might be null if generation failed
         if (data == null || data.length == 0) {
@@ -96,7 +119,11 @@ public class PageOneController {
         ChartUtil.updateChartDataset(data[0], data[1]);
     }
 
-
+    /**
+     * Executes the data generation task in a new thread.
+     *
+     * @param generateDataTask the task for generating data
+     */
     private void executeGenerateDataTask(AlertingTask<short[][]> generateDataTask) {
         Thread generateDataThread = new Thread(generateDataTask);
         generateDataThread.start();

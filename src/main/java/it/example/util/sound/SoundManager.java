@@ -7,6 +7,9 @@ import javax.sound.sampled.SourceDataLine;
 
 import it.example.util.alert.AlertUtil;
 
+/**
+ * Manages the playback of sound using a singleton pattern.
+ */
 public class SoundManager {
     private AudioFormat audioF;
     private SourceDataLine sourceDL;
@@ -17,8 +20,16 @@ public class SoundManager {
 
     private static SoundManager instance;
 
+    /**
+     * Private constructor to prevent instantiation.
+     */
     private SoundManager() {}
 
+    /**
+     * Gets the single instance of SoundManager.
+     * 
+     * @return single instance of SoundManager
+     */
     public static synchronized SoundManager getInstance() {
         if (instance == null) {
             instance = new SoundManager();
@@ -27,7 +38,7 @@ public class SoundManager {
     }
 
     /**
-     * Start playing sound if not already playing and shortData is available.
+     * Starts playing sound if not already playing and shortData is available.
      */
     public void play() {
         if (!playing && shortData != null) {
@@ -45,6 +56,9 @@ public class SoundManager {
         }
     }
 
+    /**
+     * Starts the thread responsible for sound playback.
+     */
     private void startSoundThread() {
         soundThread = new Thread(() -> {
             int bufferSize = 44100; // Buffer size in samples, 1 second of audio
@@ -68,7 +82,7 @@ public class SoundManager {
     }
 
     /**
-     * Stop playing the sound.
+     * Stops playing the sound.
      */
     public void stop() {
         playing = false;
@@ -87,7 +101,8 @@ public class SoundManager {
     }
 
     /**
-     * Set the wave data to be played.
+     * Sets the wave data to be played.
+     * 
      * @param shortData The array containing the waveform data.
      */
     public void setWaveData(short[] shortData) {

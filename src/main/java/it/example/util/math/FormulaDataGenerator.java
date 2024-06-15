@@ -7,8 +7,18 @@ import it.example.util.alert.AlertUtil;
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 
+/**
+ * Utility class for generating data based on mathematical formulas.
+ */
 public class FormulaDataGenerator {
 
+    /**
+     * Evaluates the given equation at the specified value of x.
+     *
+     * @param equation the equation to evaluate
+     * @param x the value of the variable x
+     * @return the result of the evaluation
+     */
     public static double evaluate(String equation, double x) {
         try {
             equation = prepareEquation(equation);
@@ -25,6 +35,11 @@ public class FormulaDataGenerator {
         }
     }
 
+    /**
+     * Checks the equation for unknown operators or characters and throws an exception if any are found.
+     *
+     * @param equation the equation to check
+     */
     private static void checkForUnknownOperatorsOrCharacters(String equation) {
         // Directly look for sequences that don't match the allowed pattern
         Pattern pattern = Pattern.compile("[^0-9x+\\-*/^().eEsincoqrtlgpium ]");
@@ -35,6 +50,12 @@ public class FormulaDataGenerator {
         }
     }
 
+    /**
+     * Prepares the equation by replacing certain patterns with appropriate values.
+     *
+     * @param equation the equation to prepare
+     * @return the prepared equation
+     */
     private static String prepareEquation(String equation) {
         equation = equation.trim();
         return equation
@@ -56,7 +77,7 @@ public class FormulaDataGenerator {
      *
      * @param formula the mathematical formula
      * @return a two-dimensional array containing the generated data
-     * @throws Exception 
+     * @throws Exception if an error occurs during data generation
      */
     public static short[][] generate(String formula) throws Exception {
         final int numPoints = 44_100; // Assuming we need 44100 points for 1 second at a 44100 Hz sample rate

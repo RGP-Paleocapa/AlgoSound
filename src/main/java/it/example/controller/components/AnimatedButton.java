@@ -6,23 +6,40 @@ import javafx.animation.Timeline;
 import javafx.scene.control.Button;
 import javafx.util.Duration;
 
+/**
+ * A custom button with animation effects.
+ */
 public class AnimatedButton extends Button {
 
+    /**
+     * Constructs a new AnimatedButton with default settings.
+     */
     public AnimatedButton() {
         initStyle();
         initAnimation();
     }
 
+    /**
+     * Constructs a new AnimatedButton with the specified text.
+     *
+     * @param text the text to display on the button
+     */
     public AnimatedButton(String text) {
         super(text);
         initStyle();
         initAnimation();
     }
 
+    /**
+     * Initializes the style of the button.
+     */
     private void initStyle() {
         this.getStyleClass().add("button-style");
     }
 
+    /**
+     * Initializes the hover animation for the button.
+     */
     private void initAnimation() {
         // Create a timeline for hover animation
         Timeline hoverTimeline = new Timeline(
@@ -45,4 +62,3 @@ public class AnimatedButton extends Button {
         });
     }
 }
-

@@ -25,10 +25,14 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+/**
+ * Controller class for explaining code page.
+ */
 public class ExplainingCodeController {
 
     @FXML
     private ListView<String> listView;
+
     @FXML
     private Text text;
 
@@ -56,6 +60,8 @@ public class ExplainingCodeController {
 
     /**
      * Populates itemNames list and itemNameToIndex map from JSON data.
+     *
+     * @throws JSONException if there is an error parsing the JSON data
      */
     private void populateItemNames() throws JSONException {
         for (int i = 0; i < items.length(); i++) {
@@ -68,6 +74,9 @@ public class ExplainingCodeController {
 
     /**
      * Loads items from a JSON file into the 'items' JSONArray.
+     *
+     * @throws JSONException if there is an error parsing the JSON data
+     * @throws IOException if there is an error reading the JSON file
      */
     private void loadItemsFromJSON() throws JSONException, IOException {
         try (InputStream inputStream = getClass().getResourceAsStream("/data/explainingData.json");
@@ -79,6 +88,8 @@ public class ExplainingCodeController {
 
     /**
      * Handles ListView item click events, opening or updating an item window.
+     *
+     * @param event the mouse event
      */
     private void handleListViewClick(MouseEvent event) {
         String selectedItem = listView.getSelectionModel().getSelectedItem();
@@ -97,6 +108,9 @@ public class ExplainingCodeController {
 
     /**
      * Manages the item stage, either creating a new one or updating an existing window.
+     *
+     * @param title the title of the item
+     * @param text the text of the item
      */
     private void manageItemStage(String title, String text) {
         if (itemStage == null || !itemStage.isShowing()) {
@@ -108,6 +122,10 @@ public class ExplainingCodeController {
 
     /**
      * Creates or updates an item window with the specified title and text.
+     *
+     * @param title the title of the item
+     * @param text the text of the item
+     * @param createNew whether to create a new stage or update the existing one
      */
     private void createOrUpdateItemStage(String title, String text, boolean createNew) {
         try {
@@ -134,9 +152,10 @@ public class ExplainingCodeController {
         }
     }
 
-
     /**
      * Handles the window close event by setting the reference to null.
+     *
+     * @param event the window event
      */
     private void onItemStageClosed(WindowEvent event) {
         itemStage = null;
