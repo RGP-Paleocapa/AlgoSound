@@ -1,0 +1,48 @@
+name: Java CI with Maven
+
+on:
+  pull_request:
+    branches:
+      - "main"
+      - "dependabot/**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java-version: [17, 21]
+
+    steps:
+      - name: Call Reusable Workflow
+        uses: ./.github/workflows/reusable-java-ci.yml
+        with:
+          java-version: ${{ matrix.java-version }}
+
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.actor != 'dependabot[bot]'
+    strategy:
+      matrix:
+        java-version: [17, 21]
+
+    steps:
+      - name: Call Reusable Workflow
+        uses: ./.github/workflows/reusable-java-ci.yml
+        with:
+          java-version: ${{ matrix.java-version }}
+
+  lint:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.actor != 'dependabot[bot]'
+    strategy:
+      matrix:
+        java-version: [17, 21]
+
+    steps:
+      - name: Call Reusable Workflow
+        uses: ./.github/workflows/reusable-java-ci.yml
+        with:
+          java-version: ${{ matrix.java-version }}
