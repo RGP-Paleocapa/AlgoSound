@@ -16,9 +16,9 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
       - name: Clear Maven Cache
-        uses: ./actions/clear-maven-cache
+        uses: ./.github/actions/clear-maven-cache/action.yml
       - name: Setup JDK
-        uses: ./actions/setup-jdk
+        uses: ./.github/actions/setup-jdk/action.yml
         with:
           java-version: ${{ matrix.java-version }}
       - name: Build with Maven
@@ -36,7 +36,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
       - name: Setup JDK
-        uses: ./actions/setup-jdk
+        uses: ./.github/actions/setup-jdk/action.yml
         with:
           java-version: ${{ matrix.java-version }}
       - name: Run Tests with Maven
@@ -54,7 +54,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
       - name: Setup JDK
-        uses: ./actions/setup-jdk
+        uses: ./.github/actions/setup-jdk/action.yml
         with:
           java-version: ${{ matrix.java-version }}
       - name: Run Lint with Maven
