@@ -1,0 +1,9 @@
+name: 'Clear Maven Cache'
+description: 'Clear Maven Cache'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Clear Maven Cache
+      run: rm -rf ~/.m2/repository/org/openjfx
+      shell: bash

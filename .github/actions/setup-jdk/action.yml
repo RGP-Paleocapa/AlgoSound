@@ -1,0 +1,21 @@
+name: 'Setup JDK'
+description: 'Set up JDK'
+
+inputs:
+  java-version:
+    description: 'The version of Java to set up'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up JDK ${{ inputs.java-version }}
+      uses: actions/setup-java@v4
+      with:
+        java-version: ${{ inputs.java-version }}
+        distribution: 'temurin'
+        cache: maven
+
+    - name: Verify Java Version
+      run: java -version
+      shell: bash
