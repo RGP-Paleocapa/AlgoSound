@@ -16,17 +16,11 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
       - name: Clear Maven Cache
-        run: rm -rf ~/.m2/repository/org/openjfx
-        shell: bash
-      - name: Set up JDK
-        uses: actions/setup-java@v4
+        uses: ./actions/clear-maven-cache
+      - name: Setup JDK
+        uses: ./actions/setup-jdk
         with:
           java-version: ${{ matrix.java-version }}
-          distribution: 'temurin'
-          cache: maven
-      - name: Verify Java Version
-        run: java -version
-        shell: bash
       - name: Build with Maven
         run: mvn clean compile package
         shell: bash
@@ -41,12 +35,10 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v4
-      - name: Set up JDK
-        uses: actions/setup-java@v4
+      - name: Setup JDK
+        uses: ./actions/setup-jdk
         with:
           java-version: ${{ matrix.java-version }}
-          distribution: 'temurin'
-          cache: maven
       - name: Run Tests with Maven
         run: mvn test
         shell: bash
@@ -61,12 +53,10 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v4
-      - name: Set up JDK
-        uses: actions/setup-java@v4
+      - name: Setup JDK
+        uses: ./actions/setup-jdk
         with:
           java-version: ${{ matrix.java-version }}
-          distribution: 'temurin'
-          cache: maven
       - name: Run Lint with Maven
         run: mvn checkstyle:check
         shell: bash
