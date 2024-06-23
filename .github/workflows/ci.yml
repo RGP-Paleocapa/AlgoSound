@@ -60,3 +60,12 @@ jobs:
       - name: Run Lint with Maven
         run: mvn checkstyle:check
         shell: bash
+
+  auto-approve:
+    runs-on: ubuntu-latest
+    if: github.actor == 'dependabot[bot]'
+    steps:
+      - name: Auto approve Dependabot PR
+        uses: hmarr/auto-approve-action@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
