@@ -7,8 +7,19 @@ on:
       - "dependabot/**"
 
 jobs:
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Triggering Actor
+        run: |
+          echo "Triggering Actor: ${{ github.triggering_actor }}"
+      - name: Print Actor
+        run: |
+          echo "Actor: ${{ github.actor }}"
+
   build:
     runs-on: ubuntu-latest
+    needs: debug
     strategy:
       matrix:
         java-version: [17, 21]
@@ -27,7 +38,7 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    needs: build
+    needs: [debug, build]
     if: ${{ github.triggering_actor != 'dependabot[bot]' }}
     strategy:
       matrix:
@@ -45,7 +56,7 @@ jobs:
 
   lint:
     runs-on: ubuntu-latest
-    needs: build
+    needs: [debug, build]
     if: ${{ github.triggering_actor != 'dependabot[bot]' }}
     strategy:
       matrix:
@@ -63,6 +74,7 @@ jobs:
 
   auto-approve:
     runs-on: ubuntu-latest
+    needs: debug
     if: ${{ github.triggering_actor == 'dependabot[bot]' }}
     steps:
       - name: Auto approve Dependabot PR
@@ -72,7 +84,7 @@ jobs:
 
   auto-merge:
     runs-on: ubuntu-latest
-    needs: auto-approve
+    needs: [debug, auto-approve]
     if: ${{ github.triggering_actor == 'dependabot[bot]' }}
     steps:
       - name: Merge Dependabot PR
@@ -93,3 +105,22 @@ jobs:
                 pull_number: pr_number,
               });
             }
+
+  generate-branch-and-commit:
+    runs-on: ubuntu-latest
+    if: ${{ github.triggering_actor == 'dependabot[bot]' }}
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Generate Branch Name
+        id: generate_branch_name
+        run: |
+          echo "branch-name=dependabot-update-$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
+      - name: Generate Commit Message
+        id: generate_commit_message
+        run: |
+          echo "commit-message=deps(deps): bump org.apache.maven.plugins:maven-clean-plugin from 3.3.2 to 3.4.0 $(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
+      - name: Print Branch Name and Commit Message
+        run: |
+          echo "Branch Name: $branch-name"
+          echo "Commit Message: $commit-message"
