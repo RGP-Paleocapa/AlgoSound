@@ -106,21 +106,21 @@ jobs:
               });
             }
 
-  generate-branch-and-commit:
-    runs-on: ubuntu-latest
-    if: ${{ github.triggering_actor == 'dependabot[bot]' }}
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v4
-      - name: Generate Branch Name
-        id: generate_branch_name
-        run: |
-          echo "branch-name=dependabot-update-$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
-      - name: Generate Commit Message
-        id: generate_commit_message
-        run: |
-          echo "commit-message=deps(deps): bump org.apache.maven.plugins:maven-clean-plugin from 3.3.2 to 3.4.0 $(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
-      - name: Print Branch Name and Commit Message
-        run: |
-          echo "Branch Name: $branch-name"
-          echo "Commit Message: $commit-message"
+  # generate-branch-and-commit:
+  #   runs-on: ubuntu-latest
+  #   if: ${{ github.triggering_actor == 'dependabot[bot]' }}
+  #   steps:
+  #     - name: Check out code
+  #       uses: actions/checkout@v4
+  #     - name: Generate Branch Name
+  #       id: generate_branch_name
+  #       run: |
+  #         echo "branch-name=dependabot-update-$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
+  #     - name: Generate Commit Message
+  #       id: generate_commit_message
+  #       run: |
+  #         echo "commit-message=deps(deps): bump org.apache.maven.plugins:maven-clean-plugin from 3.3.2 to 3.4.0 $(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
+  #     - name: Print Branch Name and Commit Message
+  #       run: |
+  #         echo "Branch Name: $branch-name"
+  #         echo "Commit Message: $commit-message"
