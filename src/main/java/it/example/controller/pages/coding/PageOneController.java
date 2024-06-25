@@ -1,25 +1,36 @@
 package it.example.controller.pages.coding;
 
+import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.controls.MFXTextField;
 import it.example.NavigationService;
-import it.example.controller.components.AnimatedButton;
-import it.example.controller.components.AnimatedChoiceBox;
-import it.example.controller.components.AnimatedTextField;
-import it.example.controller.components.SyntaxHighlightTextArea;
+// import it.example.controller.components.AnimatedButton;
+// import it.example.controller.components.AnimatedChoiceBox;
+// import it.example.controller.components.AnimatedTextField;
+// import it.example.controller.components.SyntaxHighlightTextArea;
 import it.example.util.alert.AlertUtil;
 import it.example.util.alert.AlertingTask;
 import it.example.util.chart.ChartUtil;
 import it.example.util.math.FormulaDataGenerator;
 import it.example.util.sound.SoundManager;
 import javafx.fxml.FXML;
+// import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TextArea;
+// import javafx.scene.control.TextField;
 
 /**
  * Controller class for the first page of the application.
  */
 public class PageOneController {
-    @FXML private AnimatedChoiceBox<String> choiceBox;
-    @FXML private AnimatedTextField formulaTextField;
-    @FXML private SyntaxHighlightTextArea formulaTextArea;
-    @FXML private AnimatedButton generateButton;
+    // @FXML private AnimatedChoiceBox<String> choiceBox;
+    // @FXML private AnimatedTextField formulaTextField;
+    // @FXML private SyntaxHighlightTextArea formulaTextArea;
+    // @FXML private AnimatedButton generateButton;
+    @FXML private ChoiceBox<String> choiceBox;
+    @FXML private MFXTextField formulaTextField;
+    // @FXML private SyntaxHighlightTextArea formulaTextArea;
+    @FXML private TextArea formulaTextArea;
+    @FXML private MFXButton generateButton;
 
     /**
      * Initializes the controller.

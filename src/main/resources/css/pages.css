@@ -5,6 +5,18 @@
 @import url(components/animated-choice-box.css);
 @import url(components/syntax-highlighting.css);
 
+@import url(materialfx/Buttons.css);
+@import url(materialfx/ChecksRadiosToggles.css);
+@import url(materialfx/ComboBoxes.css);
+@import url(materialfx/Common.css);
+@import url(materialfx/Demo.css);
+@import url(materialfx/ExampleNotification.css);
+@import url(materialfx/FontResources.css);
+@import url(materialfx/ListViews.css);
+@import url(materialfx/MFXColors.css);
+@import url(materialfx/Pickers.css);
+@import url(materialfx/Progress.css);
+@import url(materialfx/Sliders.css);
 
 /* CSS per il VBox */
 .vbox-container {

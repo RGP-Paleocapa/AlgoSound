@@ -5,7 +5,7 @@ import javax.swing.SwingUtilities;
 import org.jfree.data.xy.XYDataset;
 
 import it.example.NavigationService;
-import it.example.controller.components.AnimatedButton;
+// import it.example.controller.components.AnimatedButton;
 import it.example.util.alert.AlertUtil;
 import it.example.util.alert.AlertingTask;
 import it.example.util.chart.ChartUtil;
@@ -15,6 +15,7 @@ import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.util.Duration;
 
 /**
@@ -26,10 +27,12 @@ public class PageTwoController implements DatasetUpdateListener {
     private SwingNode swingChartsSection;
 
     @FXML
-    private AnimatedButton soundButton;
+    // private AnimatedButton soundButton;
+    private Button soundButton;
 
     @FXML
-    private AnimatedButton resetButton;
+    // private AnimatedButton resetButton;
+    private Button resetButton;
 
     /**
      * Initializes the controller.
