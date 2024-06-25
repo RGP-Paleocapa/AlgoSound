@@ -40,6 +40,7 @@
         <maven.deploy.plugin.version>3.1.2</maven.deploy.plugin.version>
         <maven.project.info.reports.plugin.version>3.6.0</maven.project.info.reports.plugin.version>
         <maven.checkstyle.plugin.version>3.4.0</maven.checkstyle.plugin.version>
+        <materialfx.version>11.17.0</materialfx.version>
     </properties>
 
     <repositories>
@@ -127,6 +128,13 @@
             <groupId>org.fxmisc.wellbehaved</groupId>
             <artifactId>wellbehavedfx</artifactId>
             <version>${wellbehavedfx.version}</version>
+        </dependency>
+
+        <!-- MaterialFX -->
+        <dependency>
+            <groupId>io.github.palexdev</groupId>
+            <artifactId>materialfx</artifactId>
+            <version>${materialfx.version}</version>
         </dependency>
     </dependencies>
 

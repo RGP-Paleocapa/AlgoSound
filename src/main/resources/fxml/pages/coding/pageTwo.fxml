@@ -4,9 +4,6 @@
 <?import javafx.embed.swing.SwingNode?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Button?>
-<!-- <?import it.example.controller.pages.CodingController?> -->
-<?import it.example.controller.components.AnimatedLabel?>
-<?import it.example.controller.components.AnimatedButton?>
 
 <VBox xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
     fx:controller="it.example.controller.pages.coding.PageTwoController"
@@ -19,8 +16,8 @@
 
     <!-- Sound Section -->
     <HBox spacing="10.0">
-        <AnimatedLabel text="Sound: " />
-        <AnimatedButton fx:id="soundButton" onAction="#handleSound" text="Play" />
-        <AnimatedButton fx:id="resetButton" onAction="#resetButton" text="Reset"/>
+        <Label text="Sound: " />
+        <Button fx:id="soundButton" onAction="#handleSound" text="Play" />
+        <Button fx:id="resetButton" onAction="#resetButton" text="Reset"/>
     </HBox>
 </VBox>

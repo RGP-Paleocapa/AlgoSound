@@ -12,3 +12,7 @@
 .animated-text-field:focused {
     -fx-border-color: blue;
 }
+
+.mfx-animated-text-field {
+    -fx-pref-width: 350px;
+}
